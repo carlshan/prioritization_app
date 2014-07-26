@@ -60,9 +60,16 @@
     [self.toDoItems addObject:item3];
 }
 
+-(NSString*) saveFilePath{
+    NSString* path = [NSString stringWithFormat:@"%@%@",
+                      [[NSBundle mainBundle] resourcePath],
+                      @"data.plist"];
+    return path;
+}
+
 - (void)saveData {
-    [self.toDoItems writeToFile:@"database.txt" atomically:YES];
     NSLog(@"Save");
+    //[self.toDoItems writeToFile:[self saveFilePath] atomically:YES];
 }
 
 - (IBAction)unwindToList:(UIStoryboardSegue *)segue
