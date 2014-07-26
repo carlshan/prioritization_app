@@ -91,7 +91,7 @@
     XYZToDoItem *toDoItem = [self.toDoItems objectAtIndex:indexPath.row];
     cell.textLabel.text = toDoItem.itemName;
     if (toDoItem.important && toDoItem.urgent) {
-        cell.textLabel.textColor = 
+        cell.textLabel.textColor = [UIColor orangeColor];
     }
     if (toDoItem.completed) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
