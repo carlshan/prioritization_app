@@ -11,6 +11,9 @@
 #import "XYZAddToDoItemViewController.h"
 
 @interface XYZToDoListTableViewController ()
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *ImportantUrgentToggle;
+@property BOOL displayImportant;
+@property BOOL displayUrgent;
 
 @property NSMutableArray *toDoItems;
 
@@ -18,7 +21,34 @@
 
 @implementation XYZToDoListTableViewController
 
+- (IBAction)toggleImportantUrgentView:(id)sender {
+    
+    switch ([sender selectedSegmentIndex]) {
+        case 0:
+            _displayImportant = YES;
+            _displayUrgent = YES;
+            break;
+        case 1:
+            _displayImportant = YES;
+            _displayUrgent = NO;
+            break;
+        case 2:
+            _displayImportant = NO;
+            _displayUrgent = YES;
+            break;
+        case 3:
+            _displayImportant = NO;
+            _displayUrgent = NO;
+            break;
+    }
+    [self updateFilteredToDoItems];
+    [self.tableView reloadData];
+}
+
 - (void)loadInitialData{
+    _displayImportant = YES;
+    _displayUrgent = YES;
+    // TODO: Instead of initializing data, load from file
     XYZToDoItem *item1 = [[XYZToDoItem alloc] init];
     item1.itemName = @"Buy milk";
     [self.toDoItems addObject:item1];
@@ -30,12 +60,25 @@
     [self.toDoItems addObject:item3];
 }
 
+-(NSString*) saveFilePath{
+    NSString* path = [NSString stringWithFormat:@"%@%@",
+                      [[NSBundle mainBundle] resourcePath],
+                      @"data.plist"];
+    return path;
+}
+
+- (void)saveData {
+    NSLog(@"Save");
+    //[self.toDoItems writeToFile:[self saveFilePath] atomically:YES];
+}
+
 - (IBAction)unwindToList:(UIStoryboardSegue *)segue
 {
     XYZAddToDoItemViewController *source = [segue sourceViewController];
     XYZToDoItem *item = source.toDoItem;
     if (item != nil) {
         [self.toDoItems addObject:item];
+        [self updateFilteredToDoItems];
         [self.tableView reloadData];
     }
 
@@ -55,12 +98,19 @@
     [super viewDidLoad];
     self.toDoItems = [[NSMutableArray alloc] init];
     [self loadInitialData];
+    [self updateFilteredToDoItems];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+-(void) updateFilteredToDoItems
+{
+    NSPredicate * iuPredicate = [NSPredicate predicateWithFormat:@"important == %@ AND urgent == %@", [NSNumber numberWithBool:_displayImportant], [NSNumber numberWithBool:_displayUrgent]];
+    self.filteredToDoItems = [self.toDoItems filteredArrayUsingPredicate: iuPredicate];
 }
 
 - (void)didReceiveMemoryWarning
@@ -80,7 +130,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [self.toDoItems count];
+    return [self.filteredToDoItems count];
 }
 
 
@@ -88,11 +138,9 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListPrototypeCell" forIndexPath:indexPath];
     
-    XYZToDoItem *toDoItem = [self.toDoItems objectAtIndex:indexPath.row];
+    XYZToDoItem *toDoItem = [self.filteredToDoItems objectAtIndex:indexPath.row];
+    
     cell.textLabel.text = toDoItem.itemName;
-    if (toDoItem.important && toDoItem.urgent) {
-        cell.textLabel.textColor = [UIColor orangeColor];
-    }
     if (toDoItem.completed) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
@@ -157,7 +205,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    XYZToDoItem *tappedItem = [self.toDoItems objectAtIndex:indexPath.row];
+    XYZToDoItem *tappedItem = [self.filteredToDoItems objectAtIndex:indexPath.row];
     tappedItem.completed = !tappedItem.completed;
     [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }

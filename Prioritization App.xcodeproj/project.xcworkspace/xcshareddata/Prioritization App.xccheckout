@@ -5,36 +5,36 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>03B9C61D-9A01-499A-8D24-4F3A4395F283</string>
+	<string>CFE87873-58EA-4EBD-9736-CE5DA818560B</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Prioritization App</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>5C89888B-DF1C-439A-BC76-46F55C395C31</key>
-		<string>ssh://github.com/carlshan/prioritization_app</string>
+		<key>96DD0D17-2391-459F-99A5-8002306C58A4</key>
+		<string>https://github.com/carlshan/prioritization_app.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Prioritization App.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>5C89888B-DF1C-439A-BC76-46F55C395C31</key>
+		<key>96DD0D17-2391-459F-99A5-8002306C58A4</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/carlshan/prioritization_app</string>
+	<string>https://github.com/carlshan/prioritization_app.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>5C89888B-DF1C-439A-BC76-46F55C395C31</string>
+	<string>96DD0D17-2391-459F-99A5-8002306C58A4</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>5C89888B-DF1C-439A-BC76-46F55C395C31</string>
+			<string>96DD0D17-2391-459F-99A5-8002306C58A4</string>
 			<key>IDESourceControlWCCName</key>
-			<string>prioritization_app</string>
+			<string>Prioritization App</string>
 		</dict>
 	</array>
 </dict>
