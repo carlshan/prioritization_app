@@ -54,13 +54,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prioritization App/XYZToDoListTableViewController.m"
-            timestampString = "428096420.316219"
+            timestampString = "428106931.374305"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
-            landmarkName = "@implementation XYZToDoListTableViewController"
-            landmarkType = "3">
+            startingLineNumber = "211"
+            endingLineNumber = "211"
+            landmarkName = "-updateItem:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
