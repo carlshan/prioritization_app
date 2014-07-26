@@ -9,13 +9,16 @@
 #import "XYZToDoListTableViewController.h"
 #import "XYZToDoItem.h"
 #import "XYZAddToDoItemViewController.h"
+#import <sqlite3.h>
 
 @interface XYZToDoListTableViewController ()
+
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ImportantUrgentToggle;
 @property BOOL displayImportant;
 @property BOOL displayUrgent;
-
 @property NSMutableArray *toDoItems;
+@property (strong, nonatomic) NSString *databasePath;
+@property (nonatomic) sqlite3 *contactDB;
 
 @end
 
@@ -46,18 +49,40 @@
 }
 
 - (void)loadInitialData{
+    NSLog(@"called loadInitialData");
     _displayImportant = YES;
     _displayUrgent = YES;
-    // TODO: Instead of initializing data, load from file
-    XYZToDoItem *item1 = [[XYZToDoItem alloc] init];
-    item1.itemName = @"Buy milk";
-    [self.toDoItems addObject:item1];
-    XYZToDoItem *item2 = [[XYZToDoItem alloc] init];
-    item2.itemName = @":)";
-    [self.toDoItems addObject:item2];
-    XYZToDoItem *item3 = [[XYZToDoItem alloc] init];
-    item3.itemName = @"Read a book";
-    [self.toDoItems addObject:item3];
+    
+    
+    const char *dbpath = [_databasePath UTF8String];
+    sqlite3_stmt    *statement;
+    
+    if (sqlite3_open(dbpath, &_contactDB) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat:
+                              @"SELECT itemname,completed,important,urgent,id FROM todoitems;"];
+        
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(_contactDB,
+                               query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                XYZToDoItem *item = [[XYZToDoItem alloc] init];
+                item.itemName = [[NSString alloc]
+                                 initWithUTF8String:
+                                 (const char *) sqlite3_column_text(statement, 0)];
+                
+                item.completed = sqlite3_column_int(statement,1);
+                item.important = sqlite3_column_int(statement,2);
+                item.urgent = sqlite3_column_int(statement,3);
+                item.database_id = sqlite3_column_int(statement,4);
+                [self.toDoItems addObject:item];
+            }
+            sqlite3_finalize(statement);
+        }
+        sqlite3_close(_contactDB);
+    }
 }
 
 -(NSString*) saveFilePath{
@@ -67,10 +92,6 @@
     return path;
 }
 
-- (void)saveData {
-    NSLog(@"Save");
-    //[self.toDoItems writeToFile:[self saveFilePath] atomically:YES];
-}
 
 - (IBAction)unwindToList:(UIStoryboardSegue *)segue
 {
@@ -78,6 +99,7 @@
     XYZToDoItem *item = source.toDoItem;
     if (item != nil) {
         [self.toDoItems addObject:item];
+        [self saveItem:item];
         [self updateFilteredToDoItems];
         [self.tableView reloadData];
     }
@@ -96,15 +118,106 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    
+    NSString *docsDir;
+    NSArray *dirPaths;
+    
+    // Get the documents directory
+    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    
+    docsDir = dirPaths[0];
+    
+    // Build the path to the database file
+    _databasePath = [[NSString alloc]
+                     initWithString: [docsDir stringByAppendingPathComponent:
+                                      @"todoitems.db"]];
+    
+    NSFileManager *filemgr = [NSFileManager defaultManager];
+    
+    if ([filemgr fileExistsAtPath: _databasePath ] == NO)
+    {
+        const char *dbpath = [_databasePath UTF8String];
+        
+        if (sqlite3_open(dbpath, &_contactDB) == SQLITE_OK)
+        {
+            char *errMsg;
+            const char *sql_stmt =
+            "CREATE TABLE IF NOT EXISTS todoitems\
+                (id INTEGER PRIMARY KEY AUTOINCREMENT, \
+                 itemname TEXT, \
+                 completed INTEGER, \
+                 important INTEGER, \
+                 urgent INTEGER)";
+            
+            if (sqlite3_exec(_contactDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
+            {
+                NSLog(@"Failed to create table");
+            } else {
+                NSLog(@"Successfully created table");
+            }
+            sqlite3_close(_contactDB);
+        } else {
+            NSLog(@"Failed to open/create database");
+        }
+    }
+    
     self.toDoItems = [[NSMutableArray alloc] init];
     [self loadInitialData];
     [self updateFilteredToDoItems];
+}
+
+- (void) saveItem:(XYZToDoItem *) item
+{
+    sqlite3_stmt *statement;
+    const char *dbpath = [_databasePath UTF8String];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    if (sqlite3_open(dbpath, &_contactDB) == SQLITE_OK)
+    {
+        NSString *insertSQL = [NSString stringWithFormat:
+                               @"INSERT INTO todoitems (itemname, completed, important, urgent)\
+                                 VALUES (\"%@\", \"%d\", \"%d\",\"%d\")",
+                               item.itemName, item.completed, item.important, item.urgent];
+        
+        const char *insert_stmt = [insertSQL UTF8String];
+        sqlite3_prepare_v2(_contactDB, insert_stmt,
+                           -1, &statement, NULL);
+        if (sqlite3_step(statement) == SQLITE_DONE)
+        {
+            item.database_id = sqlite3_last_insert_rowid(_contactDB);
+            NSLog(@"Item added");
+        } else {
+            NSLog(@"Failed to add contact");
+        }
+        sqlite3_finalize(statement);
+        sqlite3_close(_contactDB);
+    }
+}
+
+- (void) updateItem:(XYZToDoItem *) item
+{
+    NSLog(@"Completed(update)?%d",item.completed);
+    sqlite3_stmt *statement;
+    const char *dbpath = [_databasePath UTF8String];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    if (sqlite3_open(dbpath, &_contactDB) == SQLITE_OK)
+    {
+        NSString *insertSQL = [NSString stringWithFormat:
+                               @"UPDATE todoitems SET itemname=\"%@\", completed=\"%d\", important=\"%d\", urgent=\"%d\" WHERE id = \"%d\"",
+                               item.itemName, item.completed, item.important, item.urgent, item.database_id];
+        
+        const char *update_stmt = [insertSQL UTF8String];
+        sqlite3_prepare_v2(_contactDB, update_stmt,
+                           -1, &statement, NULL);
+        if (sqlite3_step(statement) == SQLITE_DONE)
+        {
+            NSLog(@"Item updated");
+        } else {
+            NSLog(@"Failed to update item");
+        }
+        sqlite3_finalize(statement);
+        sqlite3_close(_contactDB);
+    }
 }
 
 -(void) updateFilteredToDoItems
@@ -207,6 +320,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     XYZToDoItem *tappedItem = [self.filteredToDoItems objectAtIndex:indexPath.row];
     tappedItem.completed = !tappedItem.completed;
+    NSLog(@"Completed?%d",tappedItem.completed);
+    [self updateItem:tappedItem];
     [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }
 

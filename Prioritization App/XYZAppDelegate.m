@@ -28,8 +28,6 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    XYZToDoListTableViewController *mainController = (XYZToDoListTableViewController *) [[self window] rootViewController];
-    NSLog(@"%@", mainController.filteredToDoItems);
     // [mainController saveData];
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
@@ -48,8 +46,8 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Write data
-    XYZToDoListTableViewController *mainController = (XYZToDoListTableViewController *) self.window.rootViewController;
-    [mainController saveData];
+    //XYZToDoListTableViewController *mainController = (XYZToDoListTableViewController *) self.window.rootViewController;
+    //[mainController saveData];
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 

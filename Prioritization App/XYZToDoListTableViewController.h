@@ -10,8 +10,7 @@
 
 @interface XYZToDoListTableViewController : UITableViewController
 
-- (IBAction)unwindToList:(UIStoryboardSegue *)segue;
 @property NSArray *filteredToDoItems;
-- (void)saveData;
+- (IBAction)unwindToList:(UIStoryboardSegue *)segue;
 
 @end

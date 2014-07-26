@@ -15,6 +15,7 @@
 @property (readonly) NSDate *creationDate;
 @property BOOL important;
 @property BOOL urgent;
+@property long long database_id;
 
 
 @end
