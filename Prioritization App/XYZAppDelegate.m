@@ -7,6 +7,7 @@
 //
 
 #import "XYZAppDelegate.h"
+#import "XYZToDoListTableViewController.h"
 
 @implementation XYZAppDelegate
 
@@ -43,6 +44,9 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+    // Write data
+    XYZToDoListTableViewController *mainController = (XYZToDoListTableViewController *) self.window.rootViewController;
+    [mainController saveData];
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 

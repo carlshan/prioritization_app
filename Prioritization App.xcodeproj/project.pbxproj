@@ -460,6 +460,7 @@
 				BA314E6C1981E3BB007240B7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BA314E6D1981E3BB007240B7 /* Build configuration list for PBXNativeTarget "Prioritization AppTests" */ = {
 			isa = XCConfigurationList;
@@ -468,6 +469,7 @@
 				BA314E6F1981E3BB007240B7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -95,6 +95,9 @@
                                             <segment title="!I U"/>
                                             <segment title="!I!U"/>
                                         </segments>
+                                        <connections>
+                                            <action selector="toggleImportantUrgentView:" destination="uq9-tw-g1b" eventType="valueChanged" id="hft-mg-tvI"/>
+                                        </connections>
                                     </segmentedControl>
                                 </barButtonItem>
                             </items>
@@ -267,6 +270,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="ImportantUrgentToggle" destination="F6N-fD-xfn" id="mZp-6J-96F"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="32C-D7-Ffc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
