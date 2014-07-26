@@ -16,13 +16,30 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ImportantUrgentToggle;
 @property BOOL displayImportant;
 @property BOOL displayUrgent;
+@property BOOL displayArchived;
 @property NSMutableArray *toDoItems;
 @property (strong, nonatomic) NSString *databasePath;
 @property (nonatomic) sqlite3 *contactDB;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *addNewToDo;
+
 
 @end
 
 @implementation XYZToDoListTableViewController
+
+- (IBAction)toggleArchived:(id)sender {
+    UIBarButtonItem *button = (UIBarButtonItem *)sender;
+    if ([button.title isEqualToString: @"Archived"]) {
+        button.title = @"Back";
+    }
+    else {
+        button.title = @"Archived";
+    }
+    [_addNewToDo setEnabled: !_addNewToDo.enabled];
+    _displayArchived = !_displayArchived;
+    [self updateFilteredToDoItems];
+    [self.tableView reloadData];
+}
 
 - (IBAction)toggleImportantUrgentView:(id)sender {
     
@@ -60,7 +77,7 @@
     if (sqlite3_open(dbpath, &_contactDB) == SQLITE_OK)
     {
         NSString *querySQL = [NSString stringWithFormat:
-                              @"SELECT itemname,completed,important,urgent,id FROM todoitems;"];
+                              @"SELECT itemname, completed, important, urgent, archived, id FROM todoitems;"];
         
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(_contactDB,
@@ -76,7 +93,8 @@
                 item.completed = sqlite3_column_int(statement,1);
                 item.important = sqlite3_column_int(statement,2);
                 item.urgent = sqlite3_column_int(statement,3);
-                item.database_id = sqlite3_column_int(statement,4);
+                item.archived = sqlite3_column_int(statement,4);
+                item.database_id = sqlite3_column_int(statement,5);
                 [self.toDoItems addObject:item];
             }
             sqlite3_finalize(statement);
@@ -147,7 +165,8 @@
                  itemname TEXT, \
                  completed INTEGER, \
                  important INTEGER, \
-                 urgent INTEGER)";
+                 urgent INTEGER, \
+                 archived INTEGER)";
             
             if (sqlite3_exec(_contactDB, sql_stmt, NULL, NULL, &errMsg) != SQLITE_OK)
             {
@@ -174,16 +193,16 @@
     if (sqlite3_open(dbpath, &_contactDB) == SQLITE_OK)
     {
         NSString *insertSQL = [NSString stringWithFormat:
-                               @"INSERT INTO todoitems (itemname, completed, important, urgent)\
-                                 VALUES (\"%@\", \"%d\", \"%d\",\"%d\")",
-                               item.itemName, item.completed, item.important, item.urgent];
+                               @"INSERT INTO todoitems (itemname, completed, important, urgent, archived)\
+                                 VALUES (\"%@\", \"%d\", \"%d\",\"%d\", \"%d\")",
+                               item.itemName, item.completed, item.important, item.urgent, item.archived];
         
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(_contactDB, insert_stmt,
                            -1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE)
         {
-            item.database_id = sqlite3_last_insert_rowid(_contactDB);
+            item.database_id = (int) sqlite3_last_insert_rowid(_contactDB);
             NSLog(@"Item added");
         } else {
             NSLog(@"Failed to add contact");
@@ -195,15 +214,15 @@
 
 - (void) updateItem:(XYZToDoItem *) item
 {
-    NSLog(@"Completed(update)?%d",item.completed);
+    NSLog(@"Completed(update)?%d", item.completed);
     sqlite3_stmt *statement;
     const char *dbpath = [_databasePath UTF8String];
     
     if (sqlite3_open(dbpath, &_contactDB) == SQLITE_OK)
     {
         NSString *insertSQL = [NSString stringWithFormat:
-                               @"UPDATE todoitems SET itemname=\"%@\", completed=\"%d\", important=\"%d\", urgent=\"%d\" WHERE id = \"%d\"",
-                               item.itemName, item.completed, item.important, item.urgent, item.database_id];
+                               @"UPDATE todoitems SET itemname=\"%@\", completed=\"%d\", important=\"%d\", urgent=\"%d\", archived=\"%d\" WHERE id = \"%d\"",
+                               item.itemName, item.completed, item.important, item.urgent, item.archived, item.database_id];
         
         const char *update_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(_contactDB, update_stmt,
@@ -221,7 +240,7 @@
 
 -(void) updateFilteredToDoItems
 {
-    NSPredicate * iuPredicate = [NSPredicate predicateWithFormat:@"important == %@ AND urgent == %@", [NSNumber numberWithBool:_displayImportant], [NSNumber numberWithBool:_displayUrgent]];
+    NSPredicate * iuPredicate = [NSPredicate predicateWithFormat:@"important == %@ AND urgent == %@ AND archived == %@", [NSNumber numberWithBool:_displayImportant], [NSNumber numberWithBool:_displayUrgent], [NSNumber numberWithBool:_displayArchived]];
     self.filteredToDoItems = [self.toDoItems filteredArrayUsingPredicate: iuPredicate];
 }
 

@@ -25,6 +25,7 @@
         self.toDoItem = [[XYZToDoItem alloc] init];
         self.toDoItem.itemName = self.textField.text;
         self.toDoItem.completed = NO;
+        self.toDoItem.archived = NO;
         self.toDoItem.important = self.ImportantSwitch.isOn;
         self.toDoItem.urgent = self.UrgentSwitch.isOn;
     }

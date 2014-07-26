@@ -285,6 +285,11 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="My To-Do List" id="KlF-VR-YF2">
+                        <barButtonItem key="leftBarButtonItem" title="Archived" id="p8B-Mu-uWm">
+                            <connections>
+                                <action selector="toggleArchived:" destination="uq9-tw-g1b" id="lak-hF-SI1"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="gdQ-46-ClC">
                             <connections>
                                 <segue destination="v9F-j2-OgD" kind="modal" id="Vhy-G2-JwY"/>
@@ -292,6 +297,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="addNewToDo" destination="gdQ-46-ClC" id="r35-At-97U"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="32C-D7-Ffc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
