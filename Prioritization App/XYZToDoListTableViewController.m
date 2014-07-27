@@ -10,6 +10,7 @@
 #import "XYZToDoItem.h"
 #import "XYZAddToDoItemViewController.h"
 #import <sqlite3.h>
+#import "MCSwipeTableViewCell.h"
 
 @interface XYZToDoListTableViewController ()
 
@@ -265,9 +266,60 @@
 }
 
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListPrototypeCell" forIndexPath:indexPath];
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *CellIdentifier = @"ListPrototypeCell";
+    
+    MCSwipeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    // UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    if (!cell) {
+        cell = [[MCSwipeTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        
+        // Remove inset of iOS 7 separators.
+        if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+            cell.separatorInset = UIEdgeInsetsZero;
+        }
+        
+        [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
+        
+        // Setting the background color of the cell.
+        cell.contentView.backgroundColor = [UIColor whiteColor];
+    }
+
+    // Configuring the views and colors.
+    UIView *checkView = [self viewWithImageName: @"check"];
+    UIColor *greenColor = [UIColor colorWithRed:85.0 / 255.0 green:213.0 / 255.0 blue:80.0 / 255.0 alpha:1.0];
+    
+//    UIView *crossView = [self viewWithImageName:@"cross"];
+//    UIColor *redColor = [UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0];
+//    
+//    UIView *clockView = [self viewWithImageName:@"clock"];
+//    UIColor *yellowColor = [UIColor colorWithRed:254.0 / 255.0 green:217.0 / 255.0 blue:56.0 / 255.0 alpha:1.0];
+//    
+//    UIView *listView = [self viewWithImageName:@"list"];
+//    UIColor *brownColor = [UIColor colorWithRed:206.0 / 255.0 green:149.0 / 255.0 blue:98.0 / 255.0 alpha:1.0];
+    
+    // Setting the default inactive state color to the tableView background color.
+    // [cell setDefaultColor:self.tableView.backgroundView.backgroundColor];
+    
+    // [cell.textLabel setText:@"Switch Mode Cell"];
+    // [cell.detailTextLabel setText:@"Swipe to switch"];
+    
+    // Adding gestures per state basis.
+    [cell setSwipeGestureWithView:checkView color:greenColor mode:MCSwipeTableViewCellModeSwitch state:MCSwipeTableViewCellState1 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
+        NSLog(@"Did swipe \"Checkmark\" cell");
+    }];
+    
+//    [cell setSwipeGestureWithView:crossView color:redColor mode:MCSwipeTableViewCellModeSwitch state:MCSwipeTableViewCellState2 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
+//        NSLog(@"Did swipe \"Cross\" cell");
+//    }];
+//    
+//    [cell setSwipeGestureWithView:clockView color:yellowColor mode:MCSwipeTableViewCellModeSwitch state:MCSwipeTableViewCellState3 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
+//        NSLog(@"Did swipe \"Clock\" cell");
+//    }];
+//    
+//    [cell setSwipeGestureWithView:listView color:brownColor mode:MCSwipeTableViewCellModeSwitch state:MCSwipeTableViewCellState4 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
+//        NSLog(@"Did swipe \"List\" cell");
+//    }];
     
     XYZToDoItem *toDoItem = [self.filteredToDoItems objectAtIndex:indexPath.row];
     
@@ -280,36 +332,6 @@
     }
     return cell;
 }
-
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
 
 /*
 // Override to support conditional rearranging of the table view.
@@ -341,6 +363,16 @@
     NSLog(@"Completed?%d",tappedItem.completed);
     [self updateItem:tappedItem];
     [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+#pragma mark - Utils
+
+- (UIView *)viewWithImageName:(NSString *)imageName {
+    NSLog(@"Hello!");
+    UIImage *image = [UIImage imageNamed:imageName];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    imageView.contentMode = UIViewContentModeCenter;
+    return imageView;
 }
 
 @end

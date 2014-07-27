@@ -24,6 +24,15 @@
 		BA314E741981F932007240B7 /* XYZAddToDoItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA314E731981F931007240B7 /* XYZAddToDoItemViewController.m */; };
 		BA314E771981FA1A007240B7 /* XYZToDoListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA314E761981FA1A007240B7 /* XYZToDoListTableViewController.m */; };
 		BA314E7A19820EA1007240B7 /* XYZToDoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BA314E7919820EA1007240B7 /* XYZToDoItem.m */; };
+		BA5C63141984756100EB443C /* MCSwipeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA5C63121984756100EB443C /* MCSwipeTableViewCell.m */; };
+		BA5C631D1984772F00EB443C /* list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BA5C63151984772F00EB443C /* list@2x.png */; };
+		BA5C631F1984772F00EB443C /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BA5C63171984772F00EB443C /* check@2x.png */; };
+		BA5C63201984772F00EB443C /* clock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BA5C63181984772F00EB443C /* clock@2x.png */; };
+		BA5C63211984772F00EB443C /* cross.png in Resources */ = {isa = PBXBuildFile; fileRef = BA5C63191984772F00EB443C /* cross.png */; };
+		BA5C63221984772F00EB443C /* clock.png in Resources */ = {isa = PBXBuildFile; fileRef = BA5C631A1984772F00EB443C /* clock.png */; };
+		BA5C63231984772F00EB443C /* cross@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BA5C631B1984772F00EB443C /* cross@2x.png */; };
+		BA5C63241984772F00EB443C /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = BA5C631C1984772F00EB443C /* list.png */; };
+		BA5C632619847C9D00EB443C /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = BA5C632819847C9D00EB443C /* check.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +70,16 @@
 		BA314E761981FA1A007240B7 /* XYZToDoListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYZToDoListTableViewController.m; sourceTree = "<group>"; };
 		BA314E7819820EA1007240B7 /* XYZToDoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XYZToDoItem.h; sourceTree = "<group>"; };
 		BA314E7919820EA1007240B7 /* XYZToDoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYZToDoItem.m; sourceTree = "<group>"; };
+		BA5C63121984756100EB443C /* MCSwipeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCSwipeTableViewCell.m; sourceTree = SOURCE_ROOT; };
+		BA5C63131984756100EB443C /* MCSwipeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSwipeTableViewCell.h; sourceTree = SOURCE_ROOT; };
+		BA5C63151984772F00EB443C /* list@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "list@2x.png"; path = "Prioritization App/list@2x.png"; sourceTree = "<group>"; };
+		BA5C63171984772F00EB443C /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "check@2x.png"; path = "Prioritization App/check@2x.png"; sourceTree = "<group>"; };
+		BA5C63181984772F00EB443C /* clock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "clock@2x.png"; path = "Prioritization App/clock@2x.png"; sourceTree = "<group>"; };
+		BA5C63191984772F00EB443C /* cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cross.png; path = "Prioritization App/cross.png"; sourceTree = "<group>"; };
+		BA5C631A1984772F00EB443C /* clock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = clock.png; path = "Prioritization App/clock.png"; sourceTree = "<group>"; };
+		BA5C631B1984772F00EB443C /* cross@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cross@2x.png"; path = "Prioritization App/cross@2x.png"; sourceTree = "<group>"; };
+		BA5C631C1984772F00EB443C /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = list.png; path = "Prioritization App/list.png"; sourceTree = "<group>"; };
+		BA5C632719847C9D00EB443C /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/check.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +114,8 @@
 				BA314E731981F931007240B7 /* XYZAddToDoItemViewController.m */,
 				BA314E7819820EA1007240B7 /* XYZToDoItem.h */,
 				BA314E7919820EA1007240B7 /* XYZToDoItem.m */,
+				BA5C63121984756100EB443C /* MCSwipeTableViewCell.m */,
+				BA5C63131984756100EB443C /* MCSwipeTableViewCell.h */,
 				BA314E471981E3BB007240B7 /* Prioritization App */,
 				BA314E601981E3BB007240B7 /* Prioritization AppTests */,
 				BA314E401981E3BB007240B7 /* Frameworks */,
@@ -126,6 +147,7 @@
 		BA314E471981E3BB007240B7 /* Prioritization App */ = {
 			isa = PBXGroup;
 			children = (
+				BA5C63251984774D00EB443C /* Images */,
 				BA314E501981E3BB007240B7 /* XYZAppDelegate.h */,
 				BA314E511981E3BB007240B7 /* XYZAppDelegate.m */,
 				BA314E701981E911007240B7 /* Main.storyboard */,
@@ -164,6 +186,22 @@
 				BA314E631981E3BB007240B7 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BA5C63251984774D00EB443C /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				BA5C63151984772F00EB443C /* list@2x.png */,
+				BA5C632819847C9D00EB443C /* check.png */,
+				BA5C63171984772F00EB443C /* check@2x.png */,
+				BA5C63181984772F00EB443C /* clock@2x.png */,
+				BA5C63191984772F00EB443C /* cross.png */,
+				BA5C631A1984772F00EB443C /* clock.png */,
+				BA5C631B1984772F00EB443C /* cross@2x.png */,
+				BA5C631C1984772F00EB443C /* list.png */,
+			);
+			name = Images;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -242,9 +280,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA5C63221984772F00EB443C /* clock.png in Resources */,
+				BA5C631D1984772F00EB443C /* list@2x.png in Resources */,
+				BA5C632619847C9D00EB443C /* check.png in Resources */,
 				BA314E711981E911007240B7 /* Main.storyboard in Resources */,
 				BA314E4C1981E3BB007240B7 /* InfoPlist.strings in Resources */,
+				BA5C63231984772F00EB443C /* cross@2x.png in Resources */,
+				BA5C63201984772F00EB443C /* clock@2x.png in Resources */,
 				BA314E541981E3BB007240B7 /* Images.xcassets in Resources */,
+				BA5C63211984772F00EB443C /* cross.png in Resources */,
+				BA5C63241984772F00EB443C /* list.png in Resources */,
+				BA5C631F1984772F00EB443C /* check@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +313,7 @@
 				BA314E7A19820EA1007240B7 /* XYZToDoItem.m in Sources */,
 				BA314E4E1981E3BB007240B7 /* main.m in Sources */,
 				BA314E771981FA1A007240B7 /* XYZToDoListTableViewController.m in Sources */,
+				BA5C63141984756100EB443C /* MCSwipeTableViewCell.m in Sources */,
 				BA314E741981F932007240B7 /* XYZAddToDoItemViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -304,6 +351,15 @@
 				BA314E641981E3BB007240B7 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BA5C632819847C9D00EB443C /* check.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BA5C632719847C9D00EB443C /* en */,
+			);
+			name = check.png;
+			path = "Prioritization App";
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
